@@ -17,7 +17,7 @@ struct Messages {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct Response {
+struct APIResponse {
     id: String,
     object: String,
     created: u64,
@@ -99,16 +99,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         history.messages.push(user_message);
 
         let response = client
-            .post(url.clone())
+            .post(&url)
             .header("Content-Type", "application/json")
-            .header("api-key", key.clone())
+            .header("api-key", &key)
             .body(serde_json::to_string(&history)?)
             .send()
             .await?;
 
         match response.status() {
             reqwest::StatusCode::OK => {
-                match response.json::<Response>().await {
+                match response.json::<APIResponse>().await {
                     Ok(parsed) => {
                         let response_message = &parsed.choices[0].message;
                         history.messages.push(response_message.clone());
