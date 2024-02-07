@@ -5,18 +5,18 @@ use std::env;
 use std::io::{self, Write};
 use std::process::exit;
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Clone)]
 struct Message {
     role: String,
     content: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize)]
 struct Messages {
     messages: Vec<Message>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize)]
 struct APIResponse {
     id: String,
     object: String,
@@ -26,14 +26,14 @@ struct APIResponse {
     usage: Usage,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize)]
 struct Choice {
     index: u64,
     finish_reason: String,
     message: Message,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize)]
 struct Usage {
     prompt_tokens: u64,
     completion_tokens: u64,
