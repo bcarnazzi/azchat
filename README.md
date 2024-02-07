@@ -1,7 +1,7 @@
 
-# azchat
+# Introduction
 
-A simple, yet fully functional GPT3.5/GPT4 Rust CLI client using Azure OpenAI API, reqwest, tokio and serde.
+azchat - A simple, yet fully functional GPT3.5/GPT4 Rust CLI client using Azure OpenAI API, reqwest, tokio and serde.
 
 
 ## Run Locally
