@@ -65,8 +65,8 @@ fn out_prompt(prompt: &str, color: &str, input: &String) -> io::Result<()> {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let mut input = String::new();
     let client = reqwest::Client::new();
+    let mut input = String::new();
     let mut history = Messages {
         messages: Vec::new(),
     };
@@ -86,6 +86,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "{}",
         "Welcome to azchat v0.1.0. Please set a system personnality\n"
     );
+
     in_prompt("system", "cyan", &mut input)?;
     let system_message = Message {
         role: String::from("system"),
