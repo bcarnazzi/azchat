@@ -33,6 +33,7 @@ struct Choice {
     message: Message,
 }
 
+#[allow(clippy::struct_field_names)]
 #[derive(Serialize, Deserialize)]
 struct Usage {
     prompt_tokens: u64,
@@ -68,7 +69,7 @@ fn in_prompt(
 
 fn out_prompt(prompt: &str, color: &str, input: &String) -> io::Result<()> {
     print!("{}> ", prompt.color(color));
-    println!("{}", input);
+    println!("{input}");
     io::stdout().flush()?;
 
     Ok(())
@@ -89,8 +90,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let key = env::var("AZURE_OPENAI_APIKEY").expect("🔥 AZURE_OPENAI_APIKEY must be defined 🔥");
 
     let url = format!(
-        "{}openai/deployments/{}/chat/completions?api-version=2023-05-15",
-        endpoint, deployment
+        "{endpoint}openai/deployments/{deployment}/chat/completions?api-version=2023-05-15"
     );
 
     println!("Welcome to azchat v0.1.0. Please set a system personnality");
@@ -122,7 +122,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
 
             other => {
-                panic!("Uh oh! Something unexpected happened: {:?}", other);
+                panic!("Uh oh! Something unexpected happened: {other:?}");
             }
         };
     }
