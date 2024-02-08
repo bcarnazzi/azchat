@@ -40,7 +40,12 @@ struct Usage {
     total_tokens: u64,
 }
 
-fn in_prompt(prompt: &str, color: &str, input: &mut String) -> io::Result<()> {
+fn in_prompt(
+    prompt: &str,
+    color: &str,
+    input: &mut String,
+    history: &mut Messages,
+) -> io::Result<()> {
     print!("{}> ", prompt.color(color));
     io::stdout().flush()?;
 
@@ -51,6 +56,12 @@ fn in_prompt(prompt: &str, color: &str, input: &mut String) -> io::Result<()> {
     if input == "quit" || input == "exit" || input == "bye" {
         exit(0);
     }
+
+    let msg = Message {
+        role: String::from(prompt),
+        content: input.clone(),
+    };
+    history.messages.push(msg);
 
     Ok(())
 }
@@ -82,26 +93,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         endpoint, deployment
     );
 
-    println!(
-        "{}",
-        "Welcome to azchat v0.1.0. Please set a system personnality\n"
-    );
+    println!("Welcome to azchat v0.1.0. Please set a system personnality\n");
 
-    in_prompt("system", "cyan", &mut input)?;
-    let system_message = Message {
-        role: String::from("system"),
-        content: input.clone(),
-    };
-
-    history.messages.push(system_message);
+    in_prompt("system", "cyan", &mut input, &mut history)?;
 
     loop {
-        in_prompt("\nuser", "green", &mut input)?;
-        let user_message = Message {
-            role: String::from("user"),
-            content: input.clone(),
-        };
-        history.messages.push(user_message);
+        println!();
+        in_prompt("user", "green", &mut input, &mut history)?;
 
         let response = client
             .post(&url)
