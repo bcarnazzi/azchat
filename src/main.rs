@@ -16,6 +16,14 @@ struct Messages {
     messages: Vec<Message>,
 }
 
+impl Messages {
+    fn new() -> Self {
+        Self {
+            messages: Vec::new(),
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize)]
 struct APIResponse {
     id: String,
@@ -79,9 +87,7 @@ fn out_prompt(prompt: &str, color: &str, input: &String) -> io::Result<()> {
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let client = reqwest::Client::new();
     let mut input = String::new();
-    let mut history = Messages {
-        messages: Vec::new(),
-    };
+    let mut history = Messages::new();
 
     let endpoint =
         env::var("AZURE_OPENAI_ENDPOINT").expect("🔥 AZURE_OPENAI_ENDPOINT must be defined 🔥");
