@@ -93,8 +93,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         endpoint, deployment
     );
 
-    println!("Welcome to azchat v0.1.0. Please set a system personnality\n");
-
+    println!("Welcome to azchat v0.1.0. Please set a system personnality");
     in_prompt("system", "cyan", &mut input, &mut history)?;
 
     loop {
